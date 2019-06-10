@@ -50,6 +50,9 @@ class CreateUser(APIView):
         if email is None or password is None or password_confirm is None:
             return Response('Please set all fields')
 
+        if not password == password_confirm:
+            return Response('Please make sure both passwords match')
+
         user = User.objects.create_user(email, password)
 
         custom_claims = {

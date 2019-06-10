@@ -38,6 +38,8 @@ class GetLoginToken(APIView):
 
 
 class CreateUser(APIView):
+    permission_classes = (AllowAny,)
+
     def post(self, request, format=None):
         email = request.data.get('email', None)
         password = request.data.get('password', None)

@@ -34,6 +34,10 @@ ACTIVE_APPS = [
     'authentication.apps.AuthenticationConfig',
 ]
 
+THIRD_PARTY_APPS = [
+    'rest_framework'
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-] + ACTIVE_APPS
+] + THIRD_PARTY_APPS + ACTIVE_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

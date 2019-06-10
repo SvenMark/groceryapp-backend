@@ -377,3 +377,6 @@ fabric.properties
 # Sonarlint plugin
 
 # End of https://www.gitignore.io/api/django,python,pycharm,intellij,webstorm
+
+# Prevent secrets into version control
+secrets/

@@ -19,6 +19,6 @@ from django.urls import path, include
 from authentication.views import GetLoginToken, CreateUser
 
 urlpatterns = [
-    path('token/', GetLoginToken.as_view()),
+    path('login/', GetLoginToken.as_view()),
     path('register/', CreateUser.as_view()),
 ]

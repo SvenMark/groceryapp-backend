@@ -1,25 +1,21 @@
-from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
 
-import firebase_admin
-from firebase_admin import credentials
 from firebase_admin import auth
 
 # Create your views here.
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework import authentication
 from rest_framework.views import APIView
 
 from authentication.models import User
-
-cred = credentials.Certificate("secrets/serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
 
 
 class GetLoginToken(APIView):
     """
     View to get a token for a user
     """
+    permission_classes = (AllowAny,)
 
     def post(self, request, format=None):
         email = request.data.get('email', None)
@@ -53,6 +49,11 @@ class CreateUser(APIView):
         if not password == password_confirm:
             return Response('Please make sure both passwords match')
 
+        try:
+            User.objects.get(email=email)
+            return Response('This email already has an account')
+        except ObjectDoesNotExist:
+            pass
         user = User.objects.create_user(email, password)
 
         custom_claims = {

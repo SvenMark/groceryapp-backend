@@ -26,3 +26,6 @@ class ShoppingItemViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(shopping_list_id=self.kwargs['shopping_list_pk'])
+
+    def perform_update(self, serializer):
+        serializer.save(shopping_list_id=self.kwargs['shopping_list_pk'])

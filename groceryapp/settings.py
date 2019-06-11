@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 ACTIVE_APPS = [
     'authentication.apps.AuthenticationConfig',
+    'shoppinglist.apps.ShoppinglistConfig',
 ]
 
 THIRD_PARTY_APPS = [

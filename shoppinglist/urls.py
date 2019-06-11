@@ -1,4 +1,4 @@
-"""groceryapp URL Configuration
+"""shoppinglist URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_nested import routers
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('auth/', include('authentication.urls')),
-    path('shoppinglists/', include('shoppinglist.urls'))
-]
+from shoppinglist.views import ShoppingListViewSet, ShoppingItemViewSet
+
+router = routers.SimpleRouter()
+# no prefix because it is handled in the urlconfig
+router.register(r'', ShoppingListViewSet, base_name='ShoppingItem')
+
+shopping_list_router = routers.NestedSimpleRouter(router, r'', lookup='shopping_list')
+shopping_list_router.register(r'shoppingitems', ShoppingItemViewSet, base_name='ShoppingItem')
+
+urlpatterns = router.urls + shopping_list_router.urls

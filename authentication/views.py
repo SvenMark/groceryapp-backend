@@ -6,6 +6,7 @@ from firebase_admin import auth
 # Create your views here.
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 from rest_framework.views import APIView
 
 from authentication.models import User
@@ -22,7 +23,10 @@ class GetLoginToken(APIView):
         password = request.data.get('password', None)
         user = authenticate(email=email, password=password)
         if user is None:
-            return Response('wrong credentials')
+            response = {
+                'status': 'wrong credentials'
+            }
+            return Response(response, status=HTTP_401_UNAUTHORIZED)
 
         custom_claims = {
             'is_staff': user.is_staff,
@@ -46,14 +50,23 @@ class CreateUser(APIView):
         password_confirm = request.data.get('password_confirm', None)
 
         if email is None or password is None or password_confirm is None:
-            return Response('Please set all fields')
+            response = {
+                'status': 'Please set all fields'
+            }
+            return Response(response, status=HTTP_400_BAD_REQUEST)
 
         if not password == password_confirm:
-            return Response('Please make sure both passwords match')
+            response = {
+                'status': 'Please make sure both passwords match'
+            }
+            return Response(response, status=HTTP_400_BAD_REQUEST)
 
         try:
             User.objects.get(email=email)
-            return Response('This email already has an account')
+            response = {
+                'status': 'This email already has an account'
+            }
+            return Response(response, status=HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
             pass
         user = User.objects.create_user(email, password)

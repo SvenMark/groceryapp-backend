@@ -2,9 +2,12 @@ CacheControl==0.12.5
 cachetools==3.1.1
 certifi==2019.3.9
 chardet==3.0.4
+dj-database-url==0.5.0
 Django==2.2.2
+django-cors-headers==3.0.2
 django-filter==2.1.0
 djangorestframework==3.9.4
+drf-nested-routers==0.91
 firebase-admin==2.17.0
 google-api-core==1.11.1
 google-api-python-client==1.7.9
@@ -16,11 +19,13 @@ google-cloud-storage==1.16.1
 google-resumable-media==0.3.2
 googleapis-common-protos==1.6.0
 grpcio==1.21.1
+gunicorn==19.9.0
 httplib2==0.13.0
 idna==2.8
 Markdown==3.1.1
 msgpack==0.6.1
 protobuf==3.8.0
+psycopg2==2.8.3
 pyasn1==0.4.5
 pyasn1-modules==0.2.5
 PyJWT==1.7.1

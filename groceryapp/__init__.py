@@ -3,9 +3,6 @@ from firebase_admin import credentials
 import os
 import json
 
-print(os.environ)
-print(os.environ.get('SERVICE_ACCOUNT_KEY'))
-
 if os.environ.get('SERVICE_ACCOUNT_KEY') is not None:
     cred = credentials.Certificate(dict(json.loads(os.environ.get("SERVICE_ACCOUNT_KEY"))))
 else:

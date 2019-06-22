@@ -26,7 +26,7 @@ SECRET_KEY = '6tqe%(8x%48eykz#kbi)#%k7bznm8ncrtz1iwhwu%$xqu^x))o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", 0) == "1"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.testenv.nl']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.testenv.nl', '0.0.0.0']
 
 # Application definition
 

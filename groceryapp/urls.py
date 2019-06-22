@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),
     path('shoppinglists/', include('shoppinglist.urls')),
-    path('', TemplateView.as_view(template_name="readiness.html"))
+    path('', TemplateView.as_view(template_name="readiness.html")),
 ]

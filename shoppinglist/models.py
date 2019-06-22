@@ -38,6 +38,7 @@ class ShoppingItem(TimestampMixin, models.Model):
     A shoppingitem is a item which is included in a shoppinglist
     """
     description = models.CharField(_('description'), max_length=256)
+    done = models.BooleanField(_('done'), default=False)
 
     shopping_list = models.ForeignKey(ShoppingList, on_delete=models.CASCADE, related_name='shopping_items')
 

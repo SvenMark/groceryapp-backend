@@ -12,7 +12,7 @@ class ShoppingListViewSet(viewsets.ModelViewSet):
     serializer_class = ShoppingListSerializer
 
     def get_queryset(self):
-        return ShoppingList.objects.all()
+        return ShoppingList.objects.all().order_by('-created_at')
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -22,7 +22,7 @@ class ShoppingItemViewSet(viewsets.ModelViewSet):
     serializer_class = ShoppingItemSerializer
 
     def get_queryset(self):
-        return ShoppingItem.objects.filter(shopping_list=self.kwargs['shopping_list_pk'])
+        return ShoppingItem.objects.filter(shopping_list=self.kwargs['shopping_list_pk']).order_by('-created_at')
 
     def perform_create(self, serializer):
         serializer.save(shopping_list_id=self.kwargs['shopping_list_pk'])

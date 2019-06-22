@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from authentication.models import User
 from firebase_admin.auth import AuthError
 from rest_framework import authentication, HTTP_HEADER_ENCODING
 from rest_framework import exceptions
@@ -20,14 +20,12 @@ class FirebaseAuthentication(authentication.BaseAuthentication):
 
         try:
             custom_token = auth.verify_id_token(token.decode(), check_revoked=True)
-            print(custom_token)
+            user = User.objects.get(pk=custom_token.get('uid'))
+            return user, None
         except ValueError:
             raise exceptions.AuthenticationFailed('Token is invalid')
         except AuthError:
             raise exceptions.AuthenticationFailed('Token is revoked')
-
-        user = User.objects.first()
-        return user, None
 
 
 def get_header(request):

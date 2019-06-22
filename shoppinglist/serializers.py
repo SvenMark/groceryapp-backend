@@ -15,7 +15,7 @@ class ShoppingListSerializer(serializers.ModelSerializer):
 class ShoppingItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShoppingItem
-        fields = ['id', 'description']
+        fields = ['id', 'description', 'done']
 
     def save(self, **kwargs):
         shopping_list_id = kwargs.pop('shopping_list_id')

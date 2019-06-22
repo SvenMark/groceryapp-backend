@@ -380,3 +380,4 @@ fabric.properties
 
 # Prevent secrets into version control
 secrets/
+static/

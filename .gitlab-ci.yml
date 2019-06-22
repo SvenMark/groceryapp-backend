@@ -91,3 +91,7 @@ dast:
   except:
     refs:
       - master
+performance:
+  except:
+    refs:
+      - master

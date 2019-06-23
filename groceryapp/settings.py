@@ -23,6 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '6tqe%(8x%48eykz#kbi)#%k7bznm8ncrtz1iwhwu%$xqu^x))o'
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://39147da11bb34ed4889864da9dc1cc0c@sentry.io/1488319",
+    integrations=[DjangoIntegration()]
+)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", 0) == "1"
 

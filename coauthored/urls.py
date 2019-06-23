@@ -1,4 +1,4 @@
-"""groceryapp URL Configuration
+"""shoppinglist URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -13,15 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-from django.views.generic import TemplateView
+from rest_framework_nested import routers
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('auth/', include('authentication.urls')),
-    path('shoppinglists/', include('shoppinglist.urls')),
-    path('templates/', include('templating.urls')),
-    path('coauthored/', include('coauthored.urls')),
-    path('', TemplateView.as_view(template_name="readiness.html")),
-]
+from coauthored.views import CoAuthoredListViewSet
+
+router = routers.SimpleRouter()
+# no prefix because it is handled in the urlconfig
+router.register(r'', CoAuthoredListViewSet, base_name='ShoppingItem')
+
+urlpatterns = router.urls

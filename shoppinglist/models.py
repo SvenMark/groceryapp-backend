@@ -17,13 +17,41 @@ class TimestampMixin(models.Model):
         abstract = True
 
 
+class ShoppingListQuerySet(models.QuerySet):
+    def templates(self):
+        return self.filter(is_template=True)
+
+    def lists(self):
+        return self.filter(is_template=False)
+
+    def by_author(self, user):
+        return self.filter(author=user)
+
+
+class ShoppingListManager(models.Manager):
+    def get_queryset(self):
+        return ShoppingListQuerySet(self.model, using=self._db)
+
+    def templates(self):
+        return self.get_queryset().templates()
+
+    def lists(self):
+        return self.get_queryset().lists()
+
+    def by_author(self, user):
+        return self.get_queryset().by_author(user)
+
+
 class ShoppingList(TimestampMixin, models.Model):
     """
     A shoppinglist is a list which contains shoppingitems
     """
     name = models.CharField(_('name'), max_length=128)
+    is_template = models.BooleanField(_('template'), default=False)
 
     author = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='shopping_lists')
+
+    objects = ShoppingListManager()
 
     class Meta:
         verbose_name = _('shopping list')
@@ -31,6 +59,26 @@ class ShoppingList(TimestampMixin, models.Model):
 
     def __str__(self):
         return self.name
+
+    def to_template(self, name):
+        shopping_items = self.shopping_items.all()
+        self.id = None
+        self.name = name
+        self.is_template = True
+        self.save()
+        for shopping_item in shopping_items:
+            shopping_item.duplicate(self)
+        return self
+
+    def from_template(self, name):
+        shopping_items = self.shopping_items.all()
+        self.id = None
+        self.name = name
+        self.is_template = False
+        self.save()
+        for shopping_item in shopping_items:
+            shopping_item.duplicate(self)
+        return self
 
 
 class ShoppingItem(TimestampMixin, models.Model):
@@ -48,3 +96,9 @@ class ShoppingItem(TimestampMixin, models.Model):
 
     def __str__(self):
         return self.description
+
+    def duplicate(self, shopping_list):
+        self.id = None
+        self.shopping_list = shopping_list
+        self.save()
+        return self

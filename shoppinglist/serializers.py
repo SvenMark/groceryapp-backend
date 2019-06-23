@@ -23,3 +23,9 @@ class ShoppingItemSerializer(serializers.ModelSerializer):
         kwargs['shopping_list'] = shopping_list
         instance = super(ShoppingItemSerializer, self).save(**kwargs)
         return instance
+
+
+class ShoppingListTemplateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShoppingList
+        fields = ['name']

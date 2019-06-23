@@ -27,6 +27,9 @@ class ShoppingListQuerySet(models.QuerySet):
     def by_author(self, user):
         return self.filter(author=user)
 
+    def co_authored(self, user):
+        return user.co_authored_lists.all()
+
 
 class ShoppingListManager(models.Manager):
     def get_queryset(self):
@@ -41,6 +44,9 @@ class ShoppingListManager(models.Manager):
     def by_author(self, user):
         return self.get_queryset().by_author(user)
 
+    def co_authored(self, user):
+        return self.get_queryset().co_authored(user)
+
 
 class ShoppingList(TimestampMixin, models.Model):
     """
@@ -50,6 +56,8 @@ class ShoppingList(TimestampMixin, models.Model):
     is_template = models.BooleanField(_('template'), default=False)
 
     author = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='shopping_lists')
+
+    co_authors = models.ManyToManyField(AUTH_USER_MODEL, related_name='co_authored_lists')
 
     objects = ShoppingListManager()
 
